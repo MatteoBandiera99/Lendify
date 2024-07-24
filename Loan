@@ -20,3 +20,18 @@ contract LoanContract {
             isRepaid: false
         }));
     }
+    
+    function requestLoan(uint256 _loanId) public payable {
+        Loan storage loan = loans[_loanId];
+        require(msg.value == loan.amount, "Incorrect amount");
+        loan.borrower = msg.sender;
+    }
+    
+    function repayLoan(uint256 _loanId) public payable {
+        Loan storage loan = loans[_loanId];
+        require(msg.sender == loan.borrower, "Only borrower can repay");
+        require(msg.value == loan.amount + (loan.amount * loan.interestRate / 100), "Incorrect repayment amount");
+        loan.isRepaid = true;
+        payable(loan.lender).transfer(msg.value);
+    }
+}
