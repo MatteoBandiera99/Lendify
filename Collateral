@@ -1,0 +1,15 @@
+pragma solidity ^0.8.0;
+
+contract CollateralContract {
+    mapping(address => uint256) public collaterals;
+    
+    function depositCollateral() public payable {
+        collaterals[msg.sender] += msg.value;
+    }
+    
+    function releaseCollateral(address _borrower, uint256 _amount) public {
+        require(collaterals[_borrower] >= _amount, "Insufficient collateral");
+        collaterals[_borrower] -= _amount;
+        payable(_borrower).transfer(_amount);
+    }
+}
