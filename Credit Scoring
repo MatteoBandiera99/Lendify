@@ -1,0 +1,13 @@
+pragma solidity ^0.8.0;
+
+contract CreditScoringContract {
+    mapping(address => uint256) public creditScores;
+    
+    function updateCreditScore(address _borrower, uint256 _newScore) public {
+        creditScores[_borrower] = _newScore;
+    }
+    
+    function getCreditScore(address _borrower) public view returns (uint256) {
+        return creditScores[_borrower];
+    }
+}
