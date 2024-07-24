@@ -1,0 +1,22 @@
+pragma solidity ^0.8.0;
+
+contract LoanContract {
+    struct Loan {
+        uint256 amount;
+        uint256 interestRate;
+        address lender;
+        address borrower;
+        bool isRepaid;
+    }
+    
+    Loan[] public loans;
+    
+    function createLoan(uint256 _amount, uint256 _interestRate) public {
+        loans.push(Loan({
+            amount: _amount,
+            interestRate: _interestRate,
+            lender: msg.sender,
+            borrower: address(0),
+            isRepaid: false
+        }));
+    }
