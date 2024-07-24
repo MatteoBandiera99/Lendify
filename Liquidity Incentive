@@ -1,0 +1,15 @@
+pragma solidity ^0.8.0;
+
+contract LiquidityIncentiveContract {
+    mapping(address => uint256) public liquidityProviders;
+    
+    function provideLiquidity() public payable {
+        liquidityProviders[msg.sender] += msg.value;
+    }
+    
+    function withdrawLiquidity(uint256 _amount) public {
+        require(liquidityProviders[msg.sender] >= _amount, "Insufficient liquidity");
+        liquidityProviders[msg.sender] -= _amount;
+        payable(msg.sender).transfer(_amount);
+    }
+}
